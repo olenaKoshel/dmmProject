@@ -1,18 +1,25 @@
 ﻿namespace DmmProject;
-class Program
+using System.Diagnostics;
+public class Program
 {
     public static void Main()
     {
-        Graph graph = GraphGenerator.GenerateRandomGraph(4, 0.3);
-        Console.WriteLine("Матриця суміжності (пропускні спроможності):");
+        const int n = 5;  
+        const double density = 0.4;
+        const int source = 0;
+        const int sink = 4;
+
+        var graph = GraphGenerator.GenerateRandomGraph(n, density);
+            
         MatrixPrinter.PrintMatrix(graph.AdjMatrix);
+        MatrixPrinter.PrintAdjacencyList(graph.AdjList);
+        Console.WriteLine();
 
-        int source = 0;
-        int sink = 3;
+        var stopwatch = Stopwatch.StartNew();
         var result = FordFulkersonAlgorithm.FindMaxFlow(graph, source, sink);
-
-        Console.WriteLine("\nМаксимальний потік: " + result.maxFlow);
-        Console.WriteLine("Залишкова матриця:");
-        MatrixPrinter.PrintMatrix(result.residual);
+        stopwatch.Stop();
+        
+        Console.WriteLine($"Максимальний потік: {result.maxFlow}");
+        Console.WriteLine($"Час виконання: {stopwatch.ElapsedMilliseconds}мс");
     }
 }

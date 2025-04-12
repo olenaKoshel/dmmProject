@@ -1,9 +1,9 @@
 namespace DmmProject;
 public static class GraphGenerator
 {
-    public static Graph GenerateRandomGraph(int n, double density, int maxCapacity = 100)
+    public static Graph GenerateRandomGraph(int n, double density, int maxCapacity = 100, bool isDirected = true)
     {
-        Graph graph = new Graph(n, true);
+        Graph graph = new Graph(n, isDirected);
         int maxPossibleEdges = n * (n - 1);
         int numEdges = (int)(density * maxPossibleEdges);
         Random rand = new Random();

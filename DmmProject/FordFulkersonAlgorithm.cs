@@ -6,6 +6,8 @@ public static class FordFulkersonAlgorithm
     private static bool BFS(int[,] residualGraph, int source, int sink, int[] parent)
     {
         bool[] visited = new bool[residualGraph.GetLength(0)];
+        
+        
         Queue<int> queue = new Queue<int>();
         queue.Enqueue(source);
         visited[source] = true;
@@ -40,6 +42,7 @@ public static class FordFulkersonAlgorithm
             for (int v = sink; v != source; v = parent[v])
             {
                 int u = parent[v];
+                
                 pathFlow = Math.Min(pathFlow, residualGraph[u, v]);
             }
 
