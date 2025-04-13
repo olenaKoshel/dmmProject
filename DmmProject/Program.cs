@@ -4,22 +4,36 @@ public class Program
 {
     public static void Main()
     {
-        const int n = 5;  
-        const double density = 0.4;
+        const int n = 200;  
+        const double density = 0.9;
         const int source = 0;
-        const int sink = 4;
+        const int sink = 15;
+        const int numExperiments = 100;
 
-        var graph = GraphGenerator.GenerateRandomGraph(n, density);
-            
-        MatrixPrinter.PrintMatrix(graph.AdjMatrix);
-        MatrixPrinter.PrintAdjacencyList(graph.AdjList);
-        Console.WriteLine();
-
-        var stopwatch = Stopwatch.StartNew();
-        var result = FordFulkersonAlgorithm.FindMaxFlow(graph, source, sink);
-        stopwatch.Stop();
+        long totalMilliseconds = 0;
         
-        Console.WriteLine($"Максимальний потік: {result.maxFlow}");
-        Console.WriteLine($"Час виконання: {stopwatch.ElapsedMilliseconds}мс");
+        for (int i = 0; i < numExperiments; i++)
+        {
+            var graph = GraphGenerator.GenerateRandomGraph(n, density);
+            
+            /*MatrixPrinter.PrintMatrix(graph.AdjMatrix);
+            MatrixPrinter.PrintAdjacencyList(graph.AdjList);
+            Console.WriteLine();*/
+
+            var stopwatch = Stopwatch.StartNew();
+            var result = FordFulkersonAlgorithmList.FindMaxFlow_List(graph, source, sink);
+            stopwatch.Stop();
+
+            totalMilliseconds += stopwatch.ElapsedMilliseconds;
+
+            Console.WriteLine($"Експеримент {i + 1}:");
+            Console.WriteLine($"Максимальний потік: {result}");
+            Console.WriteLine($"Час виконання: {stopwatch.ElapsedMilliseconds}мс");
+            Console.WriteLine();
+        }
+        
+        double averageMilliseconds = totalMilliseconds / (double)numExperiments;
+        
+        Console.WriteLine($"Середній час виконання за {numExperiments} експериментів: {averageMilliseconds} мс");
     }
 }
